@@ -96,4 +96,28 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+<url>
+  <loc>https://najam-kineteka.com.hr/najam-kineteka-sveta-nedelja/</loc>
+  <lastmod>2026-03-30</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://najam-kineteka.com.hr/najam-kineteka-jastrebarsko/</loc>
+  <lastmod>2026-03-30</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://najam-kineteka.com.hr/najam-kineteka-sesvete/</loc>
+  <lastmod>2026-03-30</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://najam-kineteka.com.hr/najam-kineteka-ivanic-grad/</loc>
+  <lastmod>2026-03-30</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
 </urlset>
