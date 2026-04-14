@@ -13,6 +13,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <meta property="og:title" content="Kinetek Zagreb | Najam od 16 EUR/dan | Dostava isti dan | Vitalis">
 <meta property="og:description" content="Kinetek najam u Zagrebu i okolici. CPM uredaj od 16 EUR/dan s dostavom u 2 sata. Edukacija i podrska 7/7. Narucite danas!">
 <meta property="og:type" content="website">
@@ -79,7 +80,7 @@
         {
           "@type":"Question",
           "name":"Koliko košta najam kineteka u Zagrebu?",
-          "acceptedAnswer":{"@type":"Answer","text":"Najam kineteka u Zagrebu košta od 16 EUR po danu (minimalno 10 dana) ili od 400 EUR mjesečno. Cijena uključuje dostavu, postavljanje, edukaciju i tehničku podršku."}
+          "acceptedAnswer":{"@type":"Answer","text":"Najam kineteka u Zagrebu košta od 16 EUR po danu (minimalno 10 dana) ili od 280 EUR mjesečno. Cijena uključuje dostavu, postavljanje, edukaciju i tehničku podršku."}
         },
         {
           "@type":"Question",
@@ -122,6 +123,23 @@
 </script>
 </head>
 <body>
+
+<!-- STICKY TOP BAR -->
+<div class="topbar" role="region" aria-label="Cijena i dostava">
+  <div class="container topbar-inner">
+    <a href="#cijena" class="topbar-price">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      Najam od <strong>14 EUR/dan</strong>
+    </a>
+    <span class="topbar-sep" aria-hidden="true">•</span>
+    <span class="topbar-info">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Dostava u Zagrebu u 2h
+    </span>
+    <span class="topbar-sep" aria-hidden="true">•</span>
+    <a href="/kontakt/" class="topbar-cta">Naruči dostavu</a>
+  </div>
+</div>
 
 <!-- HEADER -->
 <header class="header" role="banner">
@@ -335,12 +353,7 @@
 <div class="container">
   <div class="map-grid">
     <div class="map-visual fade-in">
-      <iframe
-        src="https://maps.google.com/maps?q=Zagreb,Hrvatska&t=&z=10&ie=UTF8&iwloc=&output=embed"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        title="Područje dostave kineteka Zagreb i okolica"
-        allowfullscreen></iframe>
+      <div id="delivery-map" role="img" aria-label="Mapa područja dostave kineteka u Zagrebu i okolici"></div>
     </div>
     <div class="map-info fade-in">
       <span class="section-label">Područje dostave</span>
@@ -413,8 +426,8 @@
       <div class="price-badge">Najpopularnije</div>
       <h3>Mjesečni najam</h3>
       <p class="price-desc">Optimalno za standardnu rehabilitaciju</p>
-      <div class="price-amount">400 <span>EUR/mj</span></div>
-      <p class="price-period">od 400 EUR - ušteda do 35%</p>
+      <div class="price-amount">280 <span>EUR/mj</span></div>
+      <p class="price-period">od 280 EUR - ušteda do 35%</p>
       <div class="price-features">
         <div class="price-feature">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -595,7 +608,7 @@
         Koliko košta najam kineteka u Zagrebu?
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </button>
-      <div class="faq-a"><p>Najam kineteka u Zagrebu košta od 16 EUR po danu (minimalno 10 dana) ili od 400 EUR mjesečno. Cijena uključuje dostavu, postavljanje, edukaciju i tehničku podršku.</p></div>
+      <div class="faq-a"><p>Najam kineteka u Zagrebu košta od 16 EUR po danu (minimalno 10 dana) ili od 280 EUR mjesečno. Cijena uključuje dostavu, postavljanje, edukaciju i tehničku podršku.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q" aria-expanded="false">
@@ -715,5 +728,59 @@
 </a>
 
 <script src="/script.js" defer></script>
+<script>
+(function(){
+  var mapEl = document.getElementById('delivery-map');
+  if(!mapEl) return;
+  var loaded = false;
+  function loadLeaflet(cb){
+    var s = document.createElement('script');
+    s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    s.integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
+    s.crossOrigin = '';
+    s.onload = cb;
+    document.head.appendChild(s);
+  }
+  function initMap(){
+    var map = L.map('delivery-map', {scrollWheelZoom:false, zoomControl:true}).setView([45.815, 15.98], 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    var icon = L.divIcon({
+      className:'map-pin',
+      html:'<svg viewBox="0 0 24 24" width="28" height="28" fill="#c9a96e" stroke="#0a0a0a" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3" fill="#0a0a0a"/></svg>',
+      iconSize:[28,28],
+      iconAnchor:[14,28],
+      popupAnchor:[0,-26]
+    });
+    var locations = [
+      {name:'Zagreb (centar)', lat:45.8150, lng:15.9819, url:'/najam-kineteka-zagreb/'},
+      {name:'Novi Zagreb', lat:45.7805, lng:15.9680, url:'/najam-kineteka-novi-zagreb/'},
+      {name:'Velika Gorica', lat:45.7128, lng:16.0756, url:'/najam-kineteka-velika-gorica/'},
+      {name:'Samobor', lat:45.8022, lng:15.7122, url:'/najam-kineteka-samobor/'},
+      {name:'Zaprešić', lat:45.8569, lng:15.8069, url:'/najam-kineteka-zapresic/'},
+      {name:'Dugo Selo', lat:45.8181, lng:16.2339, url:'/najam-kineteka-dugo-selo/'},
+      {name:'Sesvete', lat:45.8314, lng:16.1153, url:null}
+    ];
+    locations.forEach(function(loc){
+      var popup = loc.url
+        ? '<strong>'+loc.name+'</strong><br><a href="'+loc.url+'">Najam kineteka</a>'
+        : '<strong>'+loc.name+'</strong>';
+      L.marker([loc.lat, loc.lng], {icon:icon}).addTo(map).bindPopup(popup);
+    });
+  }
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !loaded){
+        loaded = true;
+        loadLeaflet(initMap);
+        obs.disconnect();
+      }
+    });
+  }, {rootMargin:'200px'});
+  obs.observe(mapEl);
+})();
+</script>
 </body>
 </html>
