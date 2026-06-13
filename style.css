@@ -376,3 +376,8 @@ p{margin-bottom:1rem}
   .header,.footer,.back-to-top,.whatsapp-float,.mobile-nav{display:none!important}
   body{font-size:12pt;color:#000}
 }
+
+/* HEADER CALL */
+.header-call{display:inline-flex;align-items:center;gap:7px;margin-left:auto;margin-right:12px}
+.header-call svg{width:16px;height:16px;flex-shrink:0}
+@media(max-width:420px){.header-call .num{display:none}.header-call{padding-left:12px;padding-right:12px}}
