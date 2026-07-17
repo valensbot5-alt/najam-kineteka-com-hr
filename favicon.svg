@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#0f766e"/>
-  <text x="32" y="46" font-family="Arial,sans-serif" font-size="40" font-weight="700" fill="#c9a96e" text-anchor="middle">V</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="6" fill="#0f766e"/>
+  <path d="M5 16.5 L16 6 L27 16.5" fill="none" stroke="#c9a96e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M8 14 L8 26 L24 26 L24 14" fill="none" stroke="#c9a96e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M14 26 L14 19 L18 19 L18 26" fill="none" stroke="#c9a96e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
