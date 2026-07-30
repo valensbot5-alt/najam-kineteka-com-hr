@@ -78,6 +78,27 @@
             person_profiles: 'identified_only',
             defaults: '2025-05-24'
         })
+        // Pracenje konverzija: klik na telefon, WhatsApp i mail
+        document.addEventListener('click', function (ev) {
+            var el = ev.target;
+            if (!el || typeof el.closest !== 'function') return;
+            var a = el.closest('a[href]');
+            if (!a) return;
+            var href = a.getAttribute('href') || '';
+            var kanal = null;
+            if (href.indexOf('tel:') === 0) kanal = 'telefon';
+            else if (href.indexOf('mailto:') === 0) kanal = 'mail';
+            else if (/wa\.me|api\.whatsapp\.com|web\.whatsapp\.com|whatsapp:/i.test(href)) kanal = 'whatsapp';
+            if (!kanal) return;
+            if (window.posthog && typeof posthog.capture === 'function') {
+                posthog.capture('kontakt_klik', {
+                    kanal: kanal,
+                    odrediste: href,
+                    stranica: location.pathname,
+                    tekst: (a.innerText || '').trim().slice(0, 60)
+                });
+            }
+        }, true);
     </script>
 </head>
 <body>
